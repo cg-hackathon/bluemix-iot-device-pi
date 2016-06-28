@@ -9,6 +9,12 @@ import com.google.gson.JsonObject;
  *
  */
 public class Car implements Runnable {
+	
+	//How close the vehicles reach their destination
+	public static double distlatLong = 0.00005;
+	
+	//The steps driving the vehicles per iteration
+	public static double driveSteps = 0.000001;
 
 	// ID of car/ambulance
 	public String id;
@@ -170,20 +176,10 @@ public class Car implements Runnable {
 	/**
 	 * This method sets randomly a new destination for cars
 	 */
-	public void setNewDestinationCar() {
+	public void setNewDestination() {
 
-		this.destinationLatitude = 51.5308 - (Math.random() * 0.0035);
-		this.destinationLongitude = -0.1025 - (Math.random() * 0.0035);
-
-	}
-
-	/**
-	 * This method sets randomly a new destination for ambulances
-	 */
-	public void setNewDestinationAmbulance() {
-
-		this.destinationLatitude = 51.5308 + (Math.random() * 0.0035);
-		this.destinationLongitude = -0.1025 + (Math.random() * 0.0035);
+		this.destinationLatitude = MapCoordinatePoint.pointDownRightLatitude + (Math.random() * MapCoordinatePoint.distanceToTop);
+		this.destinationLongitude = MapCoordinatePoint.pointDownRightLongitude  + (Math.random() *- MapCoordinatePoint.distanceToLeft);
 
 	}
 
@@ -225,10 +221,7 @@ public class Car implements Runnable {
 	public void run() {
 		while (true) {
 			if (!isEmergency) {
-				if (this.id.startsWith("car"))
-					this.setNewDestinationCar();
-				else
-					this.setNewDestinationAmbulance();
+					this.setNewDestination();
 			}
 
 			else {
@@ -252,24 +245,24 @@ public class Car implements Runnable {
 					// destination
 					double distLat = currentLatitude - nextPointLatitude;
 					double distLong = currentLongitude - nextpointLongitude;
-
+					
 					// While the difference is bigger than the threshold x
-					while (Math.abs(distLat) > 0.0001 || Math.abs(distLong) > 0.0001) {
+					while (Math.abs(distLat) > distlatLong || Math.abs(distLong) > distlatLong) {
 						// check if we have to move in lat direction
-						if (Math.abs(distLat) > 0.0001) {
+						if (Math.abs(distLat) > distlatLong) {
 							// go xxx steps in direction
 							if (distLat < 0) {
-								currentLatitude = currentLatitude + 0.00005;
+								currentLatitude = currentLatitude + driveSteps;
 							} else {
-								currentLatitude = currentLatitude - 0.00005;
+								currentLatitude = currentLatitude - driveSteps;
 							}
 						}
 						// check if we have to move in long direction
-						if (Math.abs(distLong) > 0.0001) {
+						if (Math.abs(distLong) > distlatLong) {
 							if (distLong < 0) {
-								currentLongitude = currentLongitude + 0.00005;
+								currentLongitude = currentLongitude + driveSteps;
 							} else {
-								currentLongitude = currentLongitude - 0.00005;
+								currentLongitude = currentLongitude - driveSteps;
 							}
 						}
 

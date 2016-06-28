@@ -81,8 +81,8 @@ public class Device {
 			// 0.0096), 11.6519 + (Math.random() * 0.0306),
 			// "threads/car" + (i + 1));
 			
-			Car car = new Car("car" + (i + 1), 51.530784 - (Math.random() * 0.0015*(i+1)),
-					-0.102517 - (Math.random() * 0.0015*(i+1)), "threads/car" + (i + 1));
+			Car car = new Car("car" + (i + 1), 	MapCoordinatePoint.pointDownRightLatitude + (Math.random() * MapCoordinatePoint.distanceToTop),
+					MapCoordinatePoint.pointDownRightLongitude  + (Math.random() *- MapCoordinatePoint.distanceToLeft), "threads/car" + (i + 1));
 			// Publish the current location of car
 			car.publishLocation(car.currentLatitude, car.currentLongitude);
 			// Route car to random destination
@@ -95,8 +95,8 @@ public class Device {
 		ArrayList<Ambulance> a = new ArrayList<Ambulance>();
 		for (int i = 0; i < numAmbulances; i++) {
 			// Create a new ambulance with random current location
-			Ambulance ambulance = new Ambulance("ambulance" + (i + 1), 51.530784 - (Math.random() * 0.0025*(i+1)),
-					-0.102517 - (Math.random() * 0.0025*(i+1)), "threads/ambulance" + (i + 1));
+			Ambulance ambulance = new Ambulance("ambulance" + (i + 1), 	MapCoordinatePoint.pointDownRightLatitude + (Math.random() * MapCoordinatePoint.distanceToTop),
+					MapCoordinatePoint.pointDownRightLongitude  + (Math.random() *- MapCoordinatePoint.distanceToLeft), "threads/ambulance" + (i + 1));
 			// Publish the current location of ambulance
 			ambulance.publishLocation(ambulance.currentLatitude, ambulance.currentLongitude);
 			// Route ambulance to random destination
