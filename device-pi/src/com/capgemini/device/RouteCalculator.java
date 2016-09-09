@@ -104,8 +104,8 @@ public class RouteCalculator {
 			System.out.println(this.folder.substring(8) + ": Response has errors. " + rsp.toString());
 		
 		} else {
-			this.setPointList(rsp.getPoints());
-			this.setDistance(rsp.getDistance());
+			this.setPointList(rsp.getBest().getPoints());
+			this.setDistance(rsp.getBest().getDistance());
 		}
 
 	}
