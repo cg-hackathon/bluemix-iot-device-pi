@@ -15,7 +15,6 @@
 	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/commons-net-3.3.jar"/>
-	<classpathentry kind="lib" path="lib/graphhopper-0.4-20150128.170053-90.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/httpclient-4.3.6.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.3.3.jar"/>
@@ -32,5 +31,6 @@
 	<classpathentry kind="lib" path="lib/trove4j-3.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/com.ibm.iotf.client-0.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/json-20140107.jar"/>
+	<classpathentry kind="lib" path="lib/graphhopper-0.7.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
