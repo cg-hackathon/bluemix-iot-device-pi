@@ -11,10 +11,10 @@ import com.google.gson.JsonObject;
 public class Car implements Runnable {
 	
 	//How close the vehicles reach their destination
-	public static double distlatLong = 0.00005;
+	public static double distlatLong = 0.0001;
 	
 	//The steps driving the vehicles per iteration
-	public static double driveSteps = 0.000001;
+	public static double driveSteps = 0.00005;
 
 	// ID of car/ambulance
 	public String id;
@@ -35,8 +35,6 @@ public class Car implements Runnable {
 	// State of ambulance, free or busy
 	private boolean isFree = true;
 
-	// ID of emergency
-	private String emergencyID;
 
 	public static Client client = new Client();
 
@@ -153,14 +151,19 @@ public class Car implements Runnable {
 		// For ambulances add a state of ambulance
 		if (this.id.startsWith("ambulance"))
 			event.addProperty("isFree", Boolean.toString(isFree));
-		// Add ID of emergency
-		if (this.emergencyID != null)
-			event.addProperty("emergencyID", emergencyID);
 
 		// Add latitude of current location
 		event.addProperty("latitude", Double.toString(currentLatitude));
 		// Add longitude of current location
 		event.addProperty("longitude", Double.toString(currentLongitude));
+		
+		if (this.id.startsWith("ambulance") && !this.isFree){
+			
+			event.addProperty("emergency", "Emergency");
+			event.addProperty("emergencyLatitude", Double.toString(this.getDestinationLatitude()));
+			event.addProperty("emergencyLongitude", Double.toString(this.getDestinationLongitude()));
+			
+		}
 
 		// Publish event to IoT
 		client.getClient().publishEvent("location", event, 1);
@@ -192,16 +195,14 @@ public class Car implements Runnable {
 	 * @param longitude
 	 *            longitude of emergency
 	 */
-	public void setNewDestination(Double latitude, Double longitude, String id) {
+	public void setNewDestination(Double latitude, Double longitude) {
 		if (!latitude.isNaN())
 			this.destinationLatitude = latitude;
 		if (!longitude.isNaN())
 			this.destinationLongitude = longitude;
-		if (!id.trim().isEmpty()) {
-			this.emergencyID = id;
-			this.isEmergency = true;
-		}
-
+	
+		this.isEmergency = true;
+		this.isFree = false;
 	}
 
 	/**

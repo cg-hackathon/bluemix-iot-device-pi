@@ -18,9 +18,7 @@ public class EventCallbackCommand implements CommandCallback {
 	private Double emergencyLongitude;
 	// Vehicle identification number (vin) of the closest ambulance to the
 	// emergency location
-	private String vin;	
-	// ID of emergency 
-	private String emergencyID;
+	private String vin;
 
 	/*
 	 * This method is automatically called if a new command will be published.
@@ -36,7 +34,6 @@ public class EventCallbackCommand implements CommandCallback {
 		// Get the payload of command
 		JSONObject data = new JSONObject(cmd.getPayload()).getJSONObject("d");
 
-		System.out.println(data.toString());
 		// Get the vehicle identification number of ambulance which must route
 		// to the emergency location
 		if (data.has("vin")) {
@@ -56,22 +53,16 @@ public class EventCallbackCommand implements CommandCallback {
 		} else
 			emergencyLongitude = null;
 
-		// Get the id of emergency location
-		if (data.has("emergencyID")) {
-			emergencyID = data.getString("emergencyID");
-		} else
-			emergencyID = null;
-
 		int size = Ambulance.ambulances.size();
 
 		for (int i = 0; i < size; i++) {
-			if (Ambulance.ambulances.get(i).id.equals(vin)) {
+			if (vin != null) {
+				if (Ambulance.ambulances.get(i).id.equals(vin)) {
 
-				// Set the destination of the closest ambulance to the emergency
-				// position
-
-				if (emergencyLatitude!=null && emergencyLongitude!=null && emergencyID!=null)
-					Ambulance.ambulances.get(i).setNewDestination(emergencyLatitude, emergencyLongitude, emergencyID);
+					// Set the destination of the closest ambulance to the emergency position
+					if (emergencyLatitude != null && emergencyLongitude != null)
+						Ambulance.ambulances.get(i).setNewDestination(emergencyLatitude, emergencyLongitude);
+				}
 			}
 
 		}
